@@ -1,0 +1,1 @@
+CREATE OR REPLACE TABLE `udp_utilities.schema_generator_table` (projectname STRING, datasetname STRING, tablename STRING);

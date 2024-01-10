@@ -1,0 +1,1 @@
+CREATE OR REPLACE TABLE `udp_utilities.schema_generator_match_pattern` (rundatetime DATETIME, projectname STRING, datasetname STRING, tablename STRING, columnname STRING, columnposition NUMERIC, columndatatype STRING, columndatatypematch STRING);

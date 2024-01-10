@@ -1,0 +1,1 @@
+CREATE OR REPLACE TABLE `udp_data_utils_test_data.schema_generator_test_table_3` (test_column DATETIME,number_column STRING, string_column STRING, date_column STRING, datetime_column STRING, boolean_column STRING, float_column STRING);

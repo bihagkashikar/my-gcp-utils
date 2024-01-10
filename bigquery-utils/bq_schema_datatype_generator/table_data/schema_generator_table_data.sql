@@ -1,0 +1,1 @@
+INSERT INTO `udp_utilities.schema_generator_table` VALUES ("prj-insignia-udp-pre-npe","udp_data_utils_test_data","schema_generator_test_table_1");
