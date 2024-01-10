@@ -1,1 +1,1 @@
-**Refer inline folders for relevant README.md
+Refer to inline folders for relevant BigQUery utilities README.md 
