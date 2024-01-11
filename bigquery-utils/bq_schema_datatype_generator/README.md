@@ -1,27 +1,34 @@
-# udp-data-utils
+# schema-datatype-generator
 
-## Schema Generator
+## Background
+This utility is inspired from https://github.com/bxparks/bigquery-schema-generator, however with limited to only detecting the column data type all built using BigQuery stored procedures. Here are some points on how my utility is different to the one above. 
+   * Primary motivation behind building was to have the execution run serverless.
+   * Being serverless, It is hosted on BigQuery and hence written in commonly known language in SQL.
+   * The utility logs the source data type in source table, and corresponds it with best-fit data type identified by the utility.
+   * The utility also generates a VIEW with referenced to the source table, with CAST function converting the data type identified by the utility.
+   
+## HOWTO use schema data type generator
 
-Schema generator creates DDL for views of tables in a given dataset/given table list.
-These views will have the same columns as their associate tables.
-The view columns may have a different datatype and this is based on the string data values in the table columns.
+### Pre-requisites
+* The utility REQUIRES all table columns to be in STRING data type loaded in BigQuery Dataset.
+* A dataset already created in BigQuery to deploy the stored procedures.
 
-To use the schema generator, refer to the setup instructions below to create udp_utilities dataset and install its respective tables, view and routines.  Then run the following statement in BigQuery:
+### HOW it works
+
+Schema data type generator creates DDL for views of tables in a given dataset/given table list. These views will have the same columns as their associate tables.
+
+### Steps to run the utility
+
+To use the schema data type generator, run the following statement in BigQuery: 
+
 * To process all tables from a given dataset:
-    * CALL `udp_utilities.schema_generator_run`("Y","***enter project name for udp_utilities dataset***","udp_utilities","schema_generator_run_log","schema_generator_match_pattern","schema_generator_match_datatype","schema_generator_result","schema_generator_table","schema_generator_reference_table","***enter project name for dataset containing tables to create views***","***enter dataset name containing tables to create views***","***enter dataset cdc name***","***enter dataset ini name***");
+    * CALL `data_utilities.schema_generator_run`("Y","***enter project name for data_utilities dataset***","data_utilities","schema_generator_run_log","schema_generator_match_pattern","schema_generator_match_datatype","schema_generator_result","schema_generator_table","schema_generator_reference_table","***enter project name for dataset containing tables to create views***","***enter dataset name containing tables to create views***","***enter dataset cdc name***","***enter dataset ini name***");
+      
 * To process all tables from schema_generator_table table, please update this table with the required table data:
-    * CALL `udp_utilities.schema_generator_run`("N","***enter project name for udp_utilities dataset***","udp_utilities","schema_generator_run_log","schema_generator_match_pattern","schema_generator_match_datatype","schema_generator_result","schema_generator_table","schema_generator_reference_table","***enter project name for dataset containing tables to create views***","***enter dataset name containing tables to create views***","***enter dataset cdc name***","***enter dataset ini name***");
+    * CALL `data_utilities.schema_generator_run`("N","***enter project name for data_utilities dataset***","data_utilities","schema_generator_run_log","schema_generator_match_pattern","schema_generator_match_datatype","schema_generator_result","schema_generator_table","schema_generator_reference_table","***enter project name for dataset containing tables to create views***","***enter dataset name containing tables to create views***","***enter dataset cdc name***","***enter dataset ini name***");
+      
 ---
-
-### Schema Generator Components
-
-schema_generator\dataset folder:
-
-* udp_data_utils_test_data_cdc.sql - Dataset CDC.
-* udp_data_utils_test_data_ini.sql - Dataset INI.
-* udp_data_utils_test_data.sql - Dataset containing test tables with test data.
-* udp_data_utils.sql - Dataset containing routines, tables and view for schema generator in pre-npe environment.
-* udp_utilities.sql - Dataset containing routines, tables and view for schema generator in npe environment.
+### schema data type generator Components
 
 schema_generator\routine folder:
 
@@ -35,7 +42,7 @@ schema_generator\table folder :
 * schema_generator_match_pattern.sql - Stores match pattern types data.
 * schema_generator_reference_table.sql - Stores reference data.
 * schema_generator_result.sql - Stores DDL scripts to create view.
-* schema_generator_run_log.sql - Stores schema generator run logs.
+* schema_generator_run_log.sql - Stores schema data type generator run logs.
 * schema_generator_table.sql - Stores list of tables for processing.
 * schema_generator_test_table_1.sql - Test table #1.
 * schema_generator_test_table_2.sql - Test table #2.
@@ -55,13 +62,10 @@ schema_generator\view folder:
 * schema_generator_match_datatype.sql - Maps match pattern types to BigQuery datatypes.
 
 ---
+### schema data type generator Setup
 
-### Schema Generator Setup
+**Setup steps:**
 
-Setup steps:
-
-* Create dataset (schema_generator\dataset folder):
-    * Run udp_utilities.sql
 * Create tables (schema_generator\table folder):
     * Run schema_generator_match_pattern.sql
     * Run schema_generator_result.sql
@@ -80,48 +84,9 @@ Setup steps:
     * Run schema_generator_reference_table_data.sql
 
 ---
-
-### Schema Generator Test Setup and Test Run
-
-Test data setup steps:
-
-* Create dataset (schema_generator\dataset folder):
-    * Run udp_data_utils_test_data.sql
-    * Run udp_data_utils_test_data_cdc.sql
-    * Run udp_data_utils_test_data_ini.sql
-* Create tables (schema_generator\table folder):
-    * Run schema_generator_test_table_1.sql
-    * Run schema_generator_test_table_2.sql
-    * Run schema_generator_test_table_3.sql
-* Insert data (schema_generator\table_data folder):
-    * Run schema_generator_test_table_1_data.sql
-    * Run schema_generator_test_table_2_data.sql
-    * Run schema_generator_test_table_3_data.sql
-    * Run schema_generator_table_data.sql
-
-Test run steps:
-
-* CALL `udp_utilities.schema_generator_run`("Y","prj-udp-n-dev-main-mid1","udp_utilities","schema_generator_run_log","schema_generator_match_pattern","schema_generator_match_datatype","schema_generator_result","schema_generator_table","schema_generator_reference_table","prj-udp-n-dev-main-mid1","udp_data_utils_test_data","udp_data_utils_test_data_cdc","udp_data_utils_test_data_ini");
-* Parameter details:
-    * Parameter 1 - If Y then process all the tables in dataset in Parameter 10 else process all the tables in table in Parameter 8 e.g. Y
-    * Parameter 2 - Project containing the dataset in Parameter 3 e.g. prj-udp-n-dev-main-mid1.
-    * Parameter 3 - Dataset containing routines, tables and view for schema generator e.g. udp_utilities.
-    * Parameter 4 - Table to store schema generator run logs e.g. schema_generator_run_log.
-    * Parameter 5 - Table to store match pattern types data e.g. schema_generator_match_pattern.
-    * Parameter 6 - View which maps match pattern types to BigQuery datatypes e.g. schema_generator_match_datatype.
-    * Parameter 7 - Table to store DDL scripts to create view e.g. schema_generator_result.
-    * Parameter 8 - Table to store tables for processing e.g. schema_generator_table.
-    * Parameter 9 - Table to store reference data e.g. schema_generator_reference_table.
-    * Parameter 10 - Project containing the dataset in Parameter 10 e.g. prj-udp-n-dev-main-mid1.
-    * Parameter 11 - Dataset containing tables to create views e.g. udp_data_utils_test_data.
-    * Parameter 12 - Dataset CDC e.g. udp_data_utils_test_data_cdc.
-    * Parameter 13 - Dataset INI e.g. udp_data_utils_test_data_ini.
-
----
-
 ### Rules
 
-Type Inference Rules:
+**Type Inference Rules:**
 
 * INTEGER can upgrade to FLOAT
     * if a field in an early record is an INTEGER, but a subsequent record shows this field to have a FLOAT value, the type of the field will be upgraded to a FLOAT
@@ -136,10 +101,10 @@ Type Inference Rules:
 
 ### BOOLEAN Type Handling
 
-By default, the schema generator service library uses a fix set of values to determine whether the column is BOOLEAN type or not
+By default, the schema data type generator service library uses a fix set of values to determine whether the column is BOOLEAN type or not
 
 ```
-The fix set of value is (the schema generator service library will automatically lower the case):
+The fix set of value is (the schema data type generator service library will automatically lower the case):
 * true
 * false
 ```
@@ -155,7 +120,7 @@ true|y|t|yes
 true|y|f|yes
 false|y|t|no
 
-The schema generator service will infer the column type as below:
+The schema data type generator service will infer the column type as below:
 
 Column name|Inferred type
 -----------|-------
@@ -168,7 +133,7 @@ boolean_column_4|STRING
 
 ### DATE Type Handling
 
-By default, the schema generator service library uses a fix date format to determine whether the column is DATE type or not
+By default, the schema data type generator service library uses a fix date format to determine whether the column is DATE type or not
 ```
 The fix format is yyyy-[m]m-[d]d
 ```
@@ -182,7 +147,7 @@ date_column_1| date_column_2 |date_column_3|date_column_4
 2022-12-12|2022/12/12|30/04/2022|2012-12-12
 2021-06-25|2021-06-25|25/06/2021|2021-06-25
 
-The schema generator service will infer the column type as below:
+The schema data type generator service will infer the column type as below:
 
 Column name|Inferred type
 -----------|-------
@@ -230,7 +195,7 @@ datetime_column_1|datetime_column_2|datetime_column_3|datetime_column_4|datetime
 -----------------|-----------------|-----------------|-----------------|-----------------|-----------------
 2023-06-27T16:22:09.160+1000|2023-06-27 16:22:09.160000 UTC|2023-06-27T16:22:09.160000+10:00|2004-11-08-13.03.30.123694|2023-06-27T16:22:09+1000|2023-06-27T16:22:09+10:00
 
-The schema generator service will infer the column type as below:
+The schema data type generator service will infer the column type as below:
 
 Column name|Inferred type
 -----------|-------
@@ -266,7 +231,7 @@ time_column_1|time_column_2
 -----------------|-----------------
 16:22:09.160+1000|16:22:09.160000
 
-The schema generator service will infer the column type as below:
+The schema data type generator service will infer the column type as below:
 
 Column name|Inferred type
 -----------|-------
