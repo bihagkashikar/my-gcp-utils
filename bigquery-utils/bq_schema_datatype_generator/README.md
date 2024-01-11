@@ -162,7 +162,7 @@ date_column_4|STRING
 
 **Data Source Dependent Handling strategy**
 
-Data Type Inference Regex is matched from Data Source Metadata / Data Type Mapping table (https://hq.ioof.com.au/display/UDP/UDP+Technical+Design+-+BigQuery+Data+Types+for+Raw+Structured%2C+Raw+Vault+and+Business+Vault)
+Data Type Inference Regex is matched from Data Source Metadata / Data Type Mapping table
 
 For instance, Evolve date-time Regex is
 ```
@@ -218,7 +218,7 @@ date_column_1| 2023-06-27T**16**:22:09.160+1000 | 2023-06-27 **06**:22:09.160000
 
 **Data Source Dependent Handling strategy**
 
-Data Type Inference Regex is matched from Data Source Metadata / Data Type Mapping table (https://hq.ioof.com.au/display/UDP/UDP+Technical+Design+-+BigQuery+Data+Types+for+Raw+Structured%2C+Raw+Vault+and+Business+Vault)
+Data Type Inference Regex is matched from Data Source Metadata / Data Type Mapping table
 
 For instance, Evolve time Regex is
 ```
