@@ -1,4 +1,4 @@
-CREATE OR REPLACE PROCEDURE `udp_utilities.schema_generator_table_column_match_pattern`(runDatetime DATETIME, workProjectName STRING, workDatasetName STRING, workTargetTableName STRING, sourceProjectName STRING, sourceDatasetName STRING, sourceTableName STRING)
+CREATE OR REPLACE PROCEDURE `data_utilities.schema_generator_table_column_match_pattern`(runDatetime DATETIME, workProjectName STRING, workDatasetName STRING, workTargetTableName STRING, sourceProjectName STRING, sourceDatasetName STRING, sourceTableName STRING)
 BEGIN
 /*
 schema_generator_table_column_match_pattern procedure gets each column of a given source table and calls schema_generator_column_match_pattern procedure to analyse the column data value and matches them to a predefined match pattern.
@@ -15,7 +15,7 @@ source* parameters relate to source components
   sourceTableName : Source table name for source components
 
 Sample to call this procedure:
-CALL `udp_utilities.schema_generator_table_column_match_pattern`(CURRENT_DATETIME, "prj-udp-n-dev-main-mid1","udp_utilities","schema_generator_match_pattern","prj-udp-n-dev-main-mid1","udp_data_utils_test_data","schema_generator_test_table_1");
+CALL `data_utilities.schema_generator_table_column_match_pattern`(CURRENT_DATETIME, "prj-udp-n-dev-main-mid1","data_utilities","schema_generator_match_pattern","prj-udp-n-dev-main-mid1","udp_data_utils_test_data","schema_generator_test_table_1");
 */
 DECLARE queryString STRING; -- build dynamic SQL for execution
 
@@ -36,7 +36,7 @@ SELECT table_catalog, table_schema, table_name, column_name, IFNULL(ordinal_posi
 FROM work_schema_generator_table_column_match_pattern
 )  
 DO
-  CALL `udp_utilities.schema_generator_column_match_pattern`(runDatetime, workProjectName, workDatasetName, workTargetTableName, record.table_catalog, record.table_schema, record.table_name, record.column_name, record.ordinal_position, record.data_type);
+  CALL `data_utilities.schema_generator_column_match_pattern`(runDatetime, workProjectName, workDatasetName, workTargetTableName, record.table_catalog, record.table_schema, record.table_name, record.column_name, record.ordinal_position, record.data_type);
 END FOR;
 
 DROP TABLE work_schema_generator_table_column_match_pattern;

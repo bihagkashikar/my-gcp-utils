@@ -1,4 +1,4 @@
-CREATE OR REPLACE PROCEDURE `udp_utilities.schema_generator_column_match_pattern`(runDatetime DATETIME, workProjectName STRING, workDatasetName STRING, workTargetTableName STRING, sourceProjectName STRING, sourceDatasetName STRING, sourceTableName STRING, sourceColumnName STRING, sourceColumnPosition NUMERIC, sourceColumnDatatype STRING)
+CREATE OR REPLACE PROCEDURE `data_utilities.schema_generator_column_match_pattern`(runDatetime DATETIME, workProjectName STRING, workDatasetName STRING, workTargetTableName STRING, sourceProjectName STRING, sourceDatasetName STRING, sourceTableName STRING, sourceColumnName STRING, sourceColumnPosition NUMERIC, sourceColumnDatatype STRING)
 BEGIN
 /*
 schema_generator_column_match_pattern procedure analyses a column data value and matches them to a predefined match pattern.
@@ -19,7 +19,7 @@ source* parameters relate to source components
   sourceColumnDatatype : Source column datatype for source components    
 
 Sample to call this procedure:
-CALL `udp_utilities.schema_generator_column_match_pattern`(CURRENT_DATETIME, "prj-udp-n-dev-main-mid1","udp_utilities","schema_generator_match_pattern","prj-udp-n-dev-main-mid1","udp_data_utils_test_data","schema_generator_test_table_1","number_column",1,"STRING");
+CALL `data_utilities.schema_generator_column_match_pattern`(CURRENT_DATETIME, "prj-udp-n-dev-main-mid1","data_utilities","schema_generator_match_pattern","prj-udp-n-dev-main-mid1","udp_data_utils_test_data","schema_generator_test_table_1","number_column",1,"STRING");
 */
 DECLARE queryString STRING; -- build dynamic SQL for execution
 

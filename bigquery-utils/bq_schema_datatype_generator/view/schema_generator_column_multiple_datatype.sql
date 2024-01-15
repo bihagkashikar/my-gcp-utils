@@ -1,4 +1,4 @@
-CREATE OR REPLACE VIEW `udp_utilities.schema_generator_column_multiple_datatype` AS
+CREATE OR REPLACE VIEW `data_utilities.schema_generator_column_multiple_datatype` AS
 with view_data as (
 SELECT
   col.table_catalog, col.table_schema, col.table_name, col.column_name, col.data_type,
