@@ -1,4 +1,4 @@
-CREATE OR REPLACE VIEW `udp_utilities.schema_generator_match_datatype` AS
+CREATE OR REPLACE VIEW `data_utilities.schema_generator_match_datatype` AS
 SELECT rundatetime, projectname, datasetname, tablename, columnname, columnposition, columndatatype,
 string_agg(columndatatypematch, ", " order by columndatatypematch) as columndatatypematchall,
 /* if the columndatatype is not STRING, the return the columndatatype value, else derive the datatype */
@@ -20,5 +20,5 @@ when 'NO_MATCHER' then 'STRING'
 when 'NOT_MATCH' then columndatatype
 else 'STRING'
 end as columndatatyperesult
-FROM `udp_utilities.schema_generator_match_pattern`
+FROM `data_utilities.schema_generator_match_pattern`
 group by rundatetime, projectname, datasetname, tablename, columnname, columnposition, columndatatype;

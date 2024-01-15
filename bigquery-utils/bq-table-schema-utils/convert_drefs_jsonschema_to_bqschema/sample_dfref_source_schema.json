@@ -1,0 +1,1188 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$defs": {
+      "Accumulator": {
+        "type": "string",
+        "enum": [
+          "None",
+          "MemberPostTaxContribution",
+          "SalarySacrificeContribution",
+          "EmployerContribution",
+          "SuperGuaranteeContribution",
+          "GovernmentCoContribution",
+          "SpouseContribution"
+        ]
+      },
+      "IncomeAdjustmentsStateChange": {
+        "type": "object",
+        "properties": {
+          "capitalReturn": {
+            "type": "string",
+            "description": "The capital return value for the income adjustments",
+            "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+          },
+          "taxFree": {
+            "type": "string",
+            "description": "The tax free value for the income adjustments",
+            "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+          },
+          "taxDeferred": {
+            "type": "string",
+            "description": "The tax deferred value for the income adjustments",
+            "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+          },
+          "amit": {
+            "type": "string",
+            "description": "The amit value for the income adjustments",
+            "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+          },
+          "amitDecrease": {
+            "type": "string",
+            "description": "The amit decrease value for the income adjustments",
+            "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+          },
+          "amitIncrease": {
+            "type": "string",
+            "description": "The amit increase value for the income adjustments",
+            "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+          }
+        },
+        "title": "Other"
+      },
+      "StateChangeReference": {
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "type": "string",
+            "description": "The foreign entity's identifier"
+          },
+          "domain": {
+            "type": "string",
+            "description": "The domain that the foreign entity belongs to"
+          }
+        },
+        "required": [
+          "identifier",
+          "domain"
+        ]
+      }
+    },
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "description": "The type of the message payload"
+      },
+      "audit": {
+        "type": "object",
+        "properties": {
+          "realm": {
+            "type": "string",
+            "description": "The security realm that the user code was authenticated against"
+          },
+          "userCode": {
+            "type": "string",
+            "description": "The user code that created this message. This may be a service account."
+          }
+        },
+        "required": [
+          "realm",
+          "userCode"
+        ],
+        "description": "The user/system audit information of the action that created the message"
+      },
+      "headers": {
+        "type": "object",
+        "description": "Any relevant header information that is attached to the message"
+      },
+      "clientReferenceId": {
+        "type": "string",
+        "description": "Used for idempotency, uniquely identifies the message"
+      },
+      "timeSent": {
+        "type": "string",
+        "description": "The time the message was generated",
+        "format": "date-time"
+      },
+      "origin": {
+        "type": "string",
+        "description": "The service name that created the message"
+      },
+      "value": {
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "type": "string",
+            "description": "Globally unique identifier for the entity"
+          },
+          "references": {
+            "type": "object",
+            "properties": {
+              "account": {
+                "$ref": "#/$defs/StateChangeReference"
+              },
+              "benefitPayment": {
+                "$ref": "#/$defs/StateChangeReference"
+              },
+              "investments": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/StateChangeReference"
+                }
+              },
+              "reversalOf": {
+                "$ref": "#/$defs/StateChangeReference"
+              },
+              "sellTransaction": {
+                "$ref": "#/$defs/StateChangeReference"
+              }
+            },
+            "title": "Transaction StateChange Reference",
+            "description": "References to entities in other domains"
+          },
+          "state": {
+            "type": "object",
+            "properties": {
+              "transactionNumber": {
+                "type": "integer",
+                "description": "the transaction number"
+              },
+              "movementCategory": {
+                "type": "string",
+                "enum": [
+                  "EtpAdjustment",
+                  "Notification82aat",
+                  "EarningAllocation",
+                  "WithdrawalFee",
+                  "Contribution",
+                  "ReserveAccountDistribution",
+                  "ExpenseRecovery",
+                  "AdviceFee",
+                  "GroupLifePremium",
+                  "GroupLifeCredit",
+                  "InvestmentIncome",
+                  "Purchase",
+                  "Redemption",
+                  "LumpSum",
+                  "MemberFee",
+                  "CapitalGainsTax",
+                  "PensionPayment",
+                  "IncomeProtectionClaimPayment",
+                  "ReinvestedIncome",
+                  "IncomeProtectionPremium",
+                  "Tax",
+                  "IncomeTax",
+                  "AdminFee",
+                  "Expense",
+                  "IncomeProtectionInsuranceCredit",
+                  "TransferIn",
+                  "MemberBenefitProtectionPremium",
+                  "MemberBenefitProtectionFee",
+                  "MemberBenefitProtectionExpenses",
+                  "MemberBenefitProtectionFeeRebate",
+                  "ModelTransfer",
+                  "InspecieTransferIn",
+                  "InspecieTransferOut"
+                ],
+                "description": "the movement category for the transaction"
+              },
+              "group": {
+                "type": "string",
+                "enum": [
+                  "Adjustments",
+                  "AdviserServiceFees",
+                  "AdviceFees",
+                  "Earnings",
+                  "Contributions",
+                  "Distributions",
+                  "Regulatory",
+                  "PlatformFees",
+                  "OtherFees",
+                  "InsurancePremiums",
+                  "InsuranceCredits",
+                  "Notices",
+                  "Income",
+                  "Purchases",
+                  "Redemptions",
+                  "Lumpsums",
+                  "Taxes",
+                  "Payments",
+                  "Expenses",
+                  "Transfers",
+                  "ModelTransfers"
+                ],
+                "description": "the group transaction type"
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "Etp",
+                  "Fee",
+                  "Oneoff",
+                  "Insurance",
+                  "Licensee",
+                  "Ongoing",
+                  "Allocation",
+                  "Standard",
+                  "GovernmentCocontribution",
+                  "SwitchExpected",
+                  "GovernmentLowIncome",
+                  "Spouse",
+                  "Inspecie",
+                  "Nontaxable",
+                  "Taxable",
+                  "ExpenseRecovery",
+                  "Withdrawal",
+                  "Member",
+                  "Administration",
+                  "PortfolioManagementFee",
+                  "ModelManagementFee",
+                  "ExpenseRecovery",
+                  "Audit",
+                  "Dishonour",
+                  "DeferredEntry",
+                  "OtherAdministration",
+                  "Apra",
+                  "Switching",
+                  "FamilyLaw",
+                  "MemberBenefitProtectionAdmin",
+                  "MemberBenefitProtectionFeeRebate",
+                  "MemberBenefitProtectionMembership",
+                  "MemberBenefitProtectionAssets",
+                  "GrouplifeStandard",
+                  "GrouplifeMain",
+                  "GrouplifeExtra",
+                  "Retail",
+                  "IncomeProtection",
+                  "LifeInsurance",
+                  "MemberBenefitProtection",
+                  "Grouplife",
+                  "Notification82aat",
+                  "Cash",
+                  "PaidToInvestor",
+                  "TaxAdjustment",
+                  "Reinvested",
+                  "Purchase",
+                  "Confirmation",
+                  "Pending",
+                  "Summary",
+                  "Switch",
+                  "CorporateAction",
+                  "Inspecie",
+                  "Redemption",
+                  "Confirmation",
+                  "Pending",
+                  "Summary",
+                  "Switch",
+                  "CorporateAction",
+                  "Inspecie",
+                  "Benefit",
+                  "TpdPartPayment",
+                  "PartialCommutation",
+                  "FullCommutation",
+                  "Death",
+                  "ErfTransfer",
+                  "DefinedBenefitForgoneBenefit",
+                  "RegularPayment",
+                  "Transfer",
+                  "InternalTransfer",
+                  "NilBalance",
+                  "IncomePayment",
+                  "OverseasDeparture",
+                  "PartPayment",
+                  "RetirementPension",
+                  "Retirement",
+                  "FamilyLawSplit",
+                  "Tpd",
+                  "UnclaimedSuper",
+                  "Withdrawal",
+                  "ExternalTransfer",
+                  "AtoRelease",
+                  "CapitalGains",
+                  "Contribution",
+                  "ContributionAdvanceSurcharge",
+                  "ContributionStandard",
+                  "ContributionDeathBenefitAntidetriment",
+                  "ContributionSurcharge",
+                  "NoTaxFileNumber",
+                  "Income",
+                  "Pension",
+                  "IncomeProtectionClaim",
+                  "IncomeProtectionInsurance",
+                  "General",
+                  "BankCharges",
+                  "Actuarial",
+                  "BuySellMargin",
+                  "NilEntryFeeExitPenalty",
+                  "Government",
+                  "ReserveLevy",
+                  "Transfer",
+                  "MemberBenefitProtection",
+                  "TransferIn",
+                  "InspecieIn",
+                  "TransferIn",
+                  "TransferOut",
+                  "InspecieTransferIn",
+                  "InspecieTransferOut"
+                ],
+                "description": "the transaction type"
+              },
+              "pending": {
+                "type": "boolean",
+                "description": "defines if the transaction is pending or not"
+              },
+              "description": {
+                "type": "string",
+                "description": "the description of the transaction"
+              },
+              "contributionBreakdown": {
+                "description": "contribution breakdown, each item uniquely identified using fundCode:portfolioMovementId:accumulator",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "accumulatorNumber": {
+                      "type": "integer",
+                      "description": "Accumulator Number"
+                    },
+                    "accumulator": {
+                      "$ref": "#/$defs/Accumulator",
+                      "description": "Accumulator Type"
+                    },
+                    "gross": {
+                      "type": "string",
+                      "description": "Gross value of the contribution",
+                      "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                    },
+                    "net": {
+                      "type": "string",
+                      "description": "Gross value of the contribution",
+                      "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                    },
+                    "tax": {
+                      "type": "string",
+                      "description": "Tax on the contribution",
+                      "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                    },
+                    "costs": {
+                      "type": "string",
+                      "description": "Value of any costs incurred from the contribution",
+                      "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                    },
+                    "taxAccrued": {
+                      "type": "string",
+                      "description": "Tax value applicable to the value of the contribution",
+                      "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "description of the contribution"
+                    },
+                    "contributionType": {
+                      "type": "string",
+                      "enum": [
+                        "Member",
+                        "Employer"
+                      ],
+                      "description": "Defines if a contribution was made by a member or employer"
+                    }
+                  },
+                  "title": "Accumulator"
+                }
+              },
+              "effectiveDate": {
+                "type": "string",
+                "description": "the effective date for the transaction"
+              },
+              "dueDate": {
+                "type": "string",
+                "description": "the due date for the transaction"
+              },
+              "investmentNumber": {
+                "type": "integer",
+                "description": "the investment number for the transaction"
+              },
+              "units": {
+                "type": "string",
+                "description": "the number of units for the transaction"
+              },
+              "gst": {
+                "description": "gst, each item uniquely identified using fundCode:portfolioMovementId:accumulator",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "accumulatorNumber": {
+                      "type": "integer",
+                      "description": "The accumulator number for the GST"
+                    },
+                    "accumulator": {
+                      "$ref": "#/$defs/Accumulator",
+                      "description": "The accumulator for the GST"
+                    },
+                    "base": {
+                      "type": "string",
+                      "description": "The base value for the GST",
+                      "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                    },
+                    "inclusive": {
+                      "type": "string",
+                      "description": "The inclusive value for the GST",
+                      "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                    },
+                    "gst": {
+                      "type": "string",
+                      "description": "The gst value for the GST",
+                      "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                    },
+                    "gross": {
+                      "type": "string",
+                      "description": "The gross value for the GST",
+                      "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                    },
+                    "ritc": {
+                      "type": "string",
+                      "description": "The ritc value for the GST",
+                      "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                    },
+                    "ritcAccrued": {
+                      "type": "string",
+                      "description": "The ritcAccrued value for the GST",
+                      "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                    },
+                    "net": {
+                      "type": "string",
+                      "description": "The net value for the GST",
+                      "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                    }
+                  },
+                  "title": "GST"
+                }
+              },
+              "costBase": {
+                "type": "object",
+                "properties": {
+                  "costDate": {
+                    "type": "string",
+                    "description": "The cost date for the cost base",
+                    "format": "date"
+                  },
+                  "entryFee": {
+                    "type": "string",
+                    "description": "The entry fee value for the cost base",
+                    "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                  },
+                  "initialCostBase": {
+                    "type": "string",
+                    "description": "The initial value for the cost base",
+                    "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                  },
+                  "costBase": {
+                    "type": "string",
+                    "description": "The cost base value for the cost base",
+                    "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                  },
+                  "taxCostBase": {
+                    "type": "string",
+                    "description": "The tax value for the cost base",
+                    "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                  },
+                  "indexedInitialCostBase": {
+                    "type": "string",
+                    "description": "The indexed initial value for the cost base",
+                    "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                  },
+                  "indexedTo": {
+                    "type": "string",
+                    "description": "The indexed to value for the cost base",
+                    "format": "date"
+                  },
+                  "indexedCostBase": {
+                    "type": "string",
+                    "description": "The indexed value for the cost base",
+                    "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                  },
+                  "indexedTaxCostBase": {
+                    "type": "string",
+                    "description": "The indexed tax value for the cost base",
+                    "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                  },
+                  "openingIncomeAdjustments": {
+                    "$ref": "#/$defs/IncomeAdjustmentsStateChange",
+                    "description": "The opening income adjustments details for the cost base"
+                  },
+                  "incomeAdjustments": {
+                    "$ref": "#/$defs/IncomeAdjustmentsStateChange",
+                    "description": "The income adjustments details for the cost base"
+                  },
+                  "sale": {
+                    "type": "object",
+                    "properties": {
+                      "dueDate": {
+                        "type": "string",
+                        "description": "The due date for the sale",
+                        "format": "date"
+                      },
+                      "effectiveDate": {
+                        "type": "string",
+                        "description": "The effective date for the sale",
+                        "format": "date"
+                      },
+                      "date": {
+                        "type": "string",
+                        "description": "The date for the sale",
+                        "format": "date"
+                      },
+                      "proceeds": {
+                        "type": "string",
+                        "description": "The proceeds value for the sale",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "cgtable": {
+                        "type": "boolean",
+                        "description": "The cgtable value for the sale"
+                      },
+                      "gains": {
+                        "type": "string",
+                        "description": "The gains value for the sale",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "None",
+                          "Short",
+                          "Long",
+                          "Indexed",
+                          "Loss"
+                        ],
+                        "description": "The type of sale"
+                      }
+                    },
+                    "title": "Sale",
+                    "description": "The sale details for the cost base"
+                  }
+                },
+                "title": "CostBase",
+                "description": "cost base"
+              },
+              "capitalGains": {
+                "type": "object",
+                "properties": {
+                  "assessable": {
+                    "type": "string",
+                    "description": "The total assessable value in capitalGains",
+                    "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                  },
+                  "cgtable": {
+                    "type": "boolean",
+                    "description": "The total cgtable value in capitalGains"
+                  },
+                  "tax": {
+                    "type": "string",
+                    "description": "The total tax value in capitalGains",
+                    "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                  }
+                },
+                "title": "CapitalGains",
+                "description": "capital gains"
+              },
+              "income": {
+                "type": "object",
+                "properties": {
+                  "investmentNumber": {
+                    "type": "integer",
+                    "description": "The investment number for income"
+                  },
+                  "incomeNumber": {
+                    "type": "integer",
+                    "description": "The income number for income"
+                  },
+                  "taxYear": {
+                    "type": "integer",
+                    "description": "The tax year for income"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "Rebate",
+                      "Dividend",
+                      "Distribution",
+                      "Other"
+                    ],
+                    "description": "The tax year for income"
+                  },
+                  "income": {
+                    "type": "object",
+                    "properties": {
+                      "received": {
+                        "type": "string",
+                        "description": "The received value for the income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "tax": {
+                        "type": "string",
+                        "description": "The tax value for the income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "frankingCredit": {
+                        "type": "string",
+                        "description": "The franking credit value for the income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "nonResidentTax": {
+                        "type": "string",
+                        "description": "The non resident tax value for the income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "foreignTaxCredit": {
+                        "type": "string",
+                        "description": "The foreign tax credit value for the income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "otherIncomeCreditTax": {
+                        "type": "string",
+                        "description": "The other income credit tax value for the income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "accruedTax": {
+                        "type": "string",
+                        "description": "The accrued tax value for the income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "noTaxFileNumberTax": {
+                        "type": "string",
+                        "description": "The no tax file number tax value for the income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "net": {
+                        "type": "string",
+                        "description": "The net value for the income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      }
+                    },
+                    "title": "Income",
+                    "description": "The detailed breakdown of the income tax for the income"
+                  },
+                  "australian": {
+                    "type": "object",
+                    "properties": {
+                      "frankedDividends": {
+                        "type": "string",
+                        "description": "The franked dividends value for the australian income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "unfrankedDividends": {
+                        "type": "string",
+                        "description": "The unfranked CFI dividends value for the australian income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "interest": {
+                        "type": "string",
+                        "description": "The interest value for the australian income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "interestNonResidentNotWithholding": {
+                        "type": "string",
+                        "description": "The interest nonresident not withholding value for the australian income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "other": {
+                        "type": "string",
+                        "description": "The other value for the australian income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "deductibleExpenses": {
+                        "type": "string",
+                        "description": "The deductible expenses value for the australian income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "frankingCredits": {
+                        "type": "string",
+                        "description": "The franking credits value for the australian income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "otherCredits": {
+                        "type": "string",
+                        "description": "The other credits value for the australian income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "nonConcessionMIT": {
+                        "type": "string",
+                        "description": "The non concession MIT value for the australian income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "excludedNonConcessionalMIT": {
+                        "type": "string",
+                        "description": "The excluded non concession MIT value for the australian income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "cleanBuildingMIT": {
+                        "type": "string",
+                        "description": "The clean building MIT value for the australian income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      }
+                    },
+                    "title": "Australian",
+                    "description": "The detailed breakdown of the australian income"
+                  },
+                  "foreign": {
+                    "type": "object",
+                    "properties": {
+                      "assessable": {
+                        "type": "string",
+                        "description": "The assessable value for the foreign income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "taxOffset": {
+                        "type": "string",
+                        "description": "The tax offset value for the foreign income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "cfc": {
+                        "type": "string",
+                        "description": "The cfc value for the foreign income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "newZealandFrankingCredits": {
+                        "type": "string",
+                        "description": "The new zealand franking credits value for the foreign income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "interest": {
+                        "type": "string",
+                        "description": "The interest value for the foreign income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "taxCredit": {
+                        "type": "string",
+                        "description": "The tax credit value for the foreign income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "modifiedPassive": {
+                        "type": "string",
+                        "description": "The modified passive value for the foreign income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "passiveTaxCredit": {
+                        "type": "string",
+                        "description": "The passive tax credit value for the foreign income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "discountedNtarpTaxCredit": {
+                        "type": "string",
+                        "description": "The discounted ntarp tax credit value for the foreign income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "indexedNtarpTaxCredit": {
+                        "type": "string",
+                        "description": "The indexed ntarp tax credit value for the foreign income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "otherNtarpTaxCredit": {
+                        "type": "string",
+                        "description": "The other ntarp tax credit value for the foreign income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      }
+                    },
+                    "title": "Foreign",
+                    "description": "The detailed breakdown of the foreign income"
+                  },
+                  "nonTaxable": {
+                    "type": "object",
+                    "properties": {
+                      "taxFree": {
+                        "type": "string",
+                        "description": "The tax free value for the nonTaxable income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "taxPaid": {
+                        "type": "string",
+                        "description": "The tax paid value for the nonTaxable income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "taxDeferred": {
+                        "type": "string",
+                        "description": "The tax deferred value for the nonTaxable income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "taxExempt": {
+                        "type": "string",
+                        "description": "The tax exempt value for the nonTaxable income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "amitIncrease": {
+                        "type": "string",
+                        "description": "The amit increase value for the nonTaxable income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "amitDecrease": {
+                        "type": "string",
+                        "description": "The amit decrease value for the nonTaxable income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "otherNonAttributable": {
+                        "type": "string",
+                        "description": "The other non attributable value for the nonTaxable income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "nonAssessableNonExempt": {
+                        "type": "string",
+                        "description": "The non assessable non exempt value for the nonTaxable income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      }
+                    },
+                    "title": "NonTaxable",
+                    "description": "The detailed breakdown of the nonTaxable income"
+                  },
+                  "capitalGains": {
+                    "type": "object",
+                    "properties": {
+                      "indexed": {
+                        "type": "string",
+                        "description": "The non indexed value for the capital gains income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "indexedNTARP": {
+                        "type": "string",
+                        "description": "The non indexed NTARP value for the capital gains income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "discounted": {
+                        "type": "string",
+                        "description": "The discounted value for the capital gains income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "discountedNTARP": {
+                        "type": "string",
+                        "description": "The discounted NTARP value for the capital gains income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "concessional": {
+                        "type": "string",
+                        "description": "The concessional value for the capital gains income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "other": {
+                        "type": "string",
+                        "description": "The other value for the capital gains income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "otherNTARP": {
+                        "type": "string",
+                        "description": "The other NTARP value for the capital gains income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "otherCapitalGainsDistributed": {
+                        "type": "string",
+                        "description": "The other capital gains distributed value for the capital gains income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "amitCgtGrossUp": {
+                        "type": "string",
+                        "description": "The amit cgt gross up value for the capital gains income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "foreignDiscountedNTAP": {
+                        "type": "string",
+                        "description": "The foreign discounted NTAP value for the capital gains income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "foreignIndexedNTAP": {
+                        "type": "string",
+                        "description": "The foreign indexed NTAP value for the capital gains income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "foreignOtherNTAP": {
+                        "type": "string",
+                        "description": "he foreign other NTAP value for the capital gains income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "discountedTAPNCMI": {
+                        "type": "string",
+                        "description": "The discounted TAP NCMI value for the capital gains income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "otherTAPNCMI": {
+                        "type": "string",
+                        "description": "The other TAP NCMI value for the capital gains income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "discountedTAPExcludedFromNCMI": {
+                        "type": "string",
+                        "description": "The discounted tap excluded from NCMI value for the capital gains income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "otherTAPExcludedFromNCMI": {
+                        "type": "string",
+                        "description": "The other tap excluded from NCMI value for the capital gains income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "discountedCleanBuildingMIT": {
+                        "type": "string",
+                        "description": "The discounted TAP clean building mit value for the capital gains income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "otherCleanBuildingMIT": {
+                        "type": "string",
+                        "description": "The other TAP clean building mit value for the capital gains income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "discountedNTAPNCMI": {
+                        "type": "string",
+                        "description": "The discounted NTAP NCMI value for the capital gains income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "otherNTAPNCMI": {
+                        "type": "string",
+                        "description": "The other NTAP NCMI value for the capital gains income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "discountedNTAPExcludedFromNCMI": {
+                        "type": "string",
+                        "description": "The discounted NTAP excluded from NCMI value for the capital gains income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "otherNTAPExcludedFromNCMI": {
+                        "type": "string",
+                        "description": "The other NTAP excluded from NCMI value for the capital gains income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      }
+                    },
+                    "title": "CapitalGains",
+                    "description": "The detailed breakdown of the capital gains income"
+                  },
+                  "nonResident": {
+                    "type": "object",
+                    "properties": {
+                      "unfrankedDividends": {
+                        "type": "string",
+                        "description": "The unfranked dividends value for non resident income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "interest": {
+                        "type": "string",
+                        "description": "The interest value for non resident income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "other": {
+                        "type": "string",
+                        "description": "The other value for non resident income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "ncmiTapNcmiCg": {
+                        "type": "string",
+                        "description": "The NCMI TAP NCMI CG value for non resident income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "exNcmiTapExNcmiCg": {
+                        "type": "string",
+                        "description": "The ex NCMI TAP NCMI CG value for non resident income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "fundPaymentClean": {
+                        "type": "string",
+                        "description": "The fund payment clean value for non resident income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      }
+                    },
+                    "title": "NonResident",
+                    "description": "The detailed breakdown of non resident income"
+                  },
+                  "other": {
+                    "type": "object",
+                    "properties": {
+                      "managerRebate": {
+                        "type": "string",
+                        "description": "The manager rebate value for non resident income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "capitalReturn": {
+                        "type": "string",
+                        "description": "The capital return value for non resident income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "taxFileNumberWithheld": {
+                        "type": "string",
+                        "description": "The tax file number withheld value for non resident income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "licCapitalGains": {
+                        "type": "string",
+                        "description": "The lic capital gains value for non resident income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      },
+                      "unallocated": {
+                        "type": "string",
+                        "description": "The unallocated value for non resident income",
+                        "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                      }
+                    },
+                    "title": "Other",
+                    "description": "The detailed breakdown of other income"
+                  }
+                },
+                "title": "Transactional Income",
+                "description": "income"
+              },
+              "eligibleTerminationPayment": {
+                "type": "object",
+                "properties": {
+                  "payee": {
+                    "type": "string",
+                    "description": "The payee for the eligible termination payment"
+                  },
+                  "cashETP": {
+                    "type": "boolean",
+                    "description": "The cash ETP flag for the eligible termination payment"
+                  },
+                  "unrestrictedNonPreserved": {
+                    "type": "string",
+                    "description": "The unrestricted non preserved value of the eligible termination payment",
+                    "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                  },
+                  "restrictedNonPreserved": {
+                    "type": "string",
+                    "description": "The restricted non preserved value of the eligible termination payment",
+                    "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                  },
+                  "preserved": {
+                    "type": "string",
+                    "description": "The preserved value of the eligible termination payment",
+                    "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                  },
+                  "taxFree": {
+                    "type": "string",
+                    "description": "The tax free value of the eligible termination payment",
+                    "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                  },
+                  "taxableTaxed": {
+                    "type": "string",
+                    "description": "The taxable taxed value of the eligible termination payment",
+                    "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                  },
+                  "taxableUntaxed": {
+                    "type": "string",
+                    "description": "The taxable untaxed value of the eligible termination payment",
+                    "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                  }
+                },
+                "title": "EligibleTerminationPayment",
+                "description": "eligibleTerminationPayment"
+              },
+              "contributionExtra": {
+                "type": "object",
+                "properties": {
+                  "abn": {
+                    "type": "string",
+                    "description": "The Super Fund's ABN"
+                  },
+                  "isSelfManagedSuperFund": {
+                    "type": "boolean"
+                  },
+                  "payer": {
+                    "type": "string",
+                    "description": "The payer for the contribution extra payment"
+                  },
+                  "superFundName": {
+                    "type": "string",
+                    "description": "The name of the Super Fund"
+                  },
+                  "superFundNumber": {
+                    "type": "integer",
+                    "description": "The Super Fund number"
+                  },
+                  "usi": {
+                    "type": "string",
+                    "description": "The Super Fund's Unique Superannuation Identifier"
+                  }
+                },
+                "title": "ContributionExtra",
+                "description": "contributionExtra"
+              },
+              "movements": {
+                "description": "list of transaction movements, each item can be uniquely identified using fundCode:portfolioMovementId:movementType",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "investmentNumber": {
+                      "type": "integer",
+                      "description": "the investment number for the transaction movement"
+                    },
+                    "type": {
+                      "type": "string",
+                      "enum": [
+                        "Brokerage",
+                        "Buy",
+                        "Contribution",
+                        "Cost",
+                        "Credit",
+                        "Distribution",
+                        "EtpAdjustment",
+                        "Expense",
+                        "Fee",
+                        "FeeRebate",
+                        "Income",
+                        "ReinvestedIncome",
+                        "IncomeProtectionPayment",
+                        "InsurancePremium",
+                        "PensionPayment",
+                        "Sell",
+                        "Tax",
+                        "Withdrawal",
+                        "TransferIn",
+                        "GroupLifeCredit"
+                      ],
+                      "description": "the investment type of the transaction movement"
+                    },
+                    "units": {
+                      "type": "string",
+                      "description": "The number of units for this investment in the transaction",
+                      "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                    },
+                    "price": {
+                      "type": "string",
+                      "description": "the price of an unit for the transaction movement",
+                      "pattern": "^-?[0-9]+(\\.[0-9]+)?$"
+                    }
+                  },
+                  "title": "TransactionMovement"
+                }
+              }
+            },
+            "title": "PortfolioMovement StateChange",
+            "description": "The new state of the entity"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "CREATED",
+              "MODIFIED",
+              "DELETED",
+              "SEEDED"
+            ],
+            "description": "The type of change that triggered the state change"
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "The time the state change occurred in the system",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "identifier",
+          "type",
+          "timestamp"
+        ],
+        "description": "The value of the message"
+      }
+    },
+    "required": [
+      "type",
+      "audit",
+      "clientReferenceId",
+      "timeSent",
+      "origin"
+    ]
+  }

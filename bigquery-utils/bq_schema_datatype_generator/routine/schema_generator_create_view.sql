@@ -1,4 +1,4 @@
-CREATE OR REPLACE PROCEDURE `udp_utilities.schema_generator_create_view`(runDatetime DATETIME, workProjectName STRING, workDatasetName STRING, workSourceTableName STRING, workReferenceTableName STRING, workTargetTableName STRING, sourceProjectName STRING, sourceDatasetName STRING, sourceTableName STRING, sourceDatasetCdcName STRING, sourceDatasetIniName STRING)
+CREATE OR REPLACE PROCEDURE `data_utilities.schema_generator_create_view`(runDatetime DATETIME, workProjectName STRING, workDatasetName STRING, workSourceTableName STRING, workReferenceTableName STRING, workTargetTableName STRING, sourceProjectName STRING, sourceDatasetName STRING, sourceTableName STRING, sourceDatasetCdcName STRING, sourceDatasetIniName STRING)
 BEGIN
 /*
 schema_generator_create_view procedure dynamically creates a view for a given source table.
@@ -22,7 +22,7 @@ source* parameters relate to source components
   sourceDatasetIniName : Dataset INI name for source components
 
 Sample to call this procedure:
-CALL `udp_utilities.schema_generator_create_view`(CURRENT_DATETIME, "prj-udp-n-dev-main-mid1","udp_utilities","schema_generator_match_datatype","schema_generator_reference_table","schema_generator_result","prj-udp-n-dev-main-mid1","udp_data_utils_test_data","schema_generator_test_table_1","udp_data_utils_test_data_cdc","udp_data_utils_test_data_ini");
+CALL `data_utilities.schema_generator_create_view`(CURRENT_DATETIME, "prj-udp-n-dev-main-mid1","data_utilities","schema_generator_match_datatype","schema_generator_reference_table","schema_generator_result","prj-udp-n-dev-main-mid1","udp_data_utils_test_data","schema_generator_test_table_1","udp_data_utils_test_data_cdc","udp_data_utils_test_data_ini");
 */
 DECLARE queryHeadStringCdc STRING; -- for building dynamic SQL for execution
 DECLARE queryHeadStringIni STRING; -- for building dynamic SQL for execution

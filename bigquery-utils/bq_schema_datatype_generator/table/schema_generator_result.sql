@@ -1,1 +1,1 @@
-CREATE OR REPLACE TABLE `udp_utilities.schema_generator_result` (rundatetime DATETIME, projectname STRING, datasetname STRING, tablename STRING, sql_cdc STRING, sql_ini STRING);
+CREATE OR REPLACE TABLE `data_utilities.schema_generator_result` (rundatetime DATETIME, projectname STRING, datasetname STRING, tablename STRING, sql_cdc STRING, sql_ini STRING);

@@ -1,4 +1,4 @@
-CREATE OR REPLACE PROCEDURE `udp_utilities.schema_generator_run`(processFromSourceDataset STRING, workProjectName STRING, workDatasetName STRING, workTargetTableName1 STRING, workTargetTableName2 STRING, workTargetTableName3 STRING, workTargetTableName4 STRING, workTargetTableName5 STRING, workTargetTableName6 STRING, sourceProjectName STRING, sourceDatasetName STRING, sourceDatasetCdcName STRING, sourceDatasetIniName STRING)
+CREATE OR REPLACE PROCEDURE `data_utilities.schema_generator_run`(processFromSourceDataset STRING, workProjectName STRING, workDatasetName STRING, workTargetTableName1 STRING, workTargetTableName2 STRING, workTargetTableName3 STRING, workTargetTableName4 STRING, workTargetTableName5 STRING, workTargetTableName6 STRING, sourceProjectName STRING, sourceDatasetName STRING, sourceDatasetCdcName STRING, sourceDatasetIniName STRING)
 BEGIN
 /*
 schema_generator_run procedure gets each table of a given dataset/given table list and calls schema_generator_table_column_match and schema_generator_create_view procedures.
@@ -21,7 +21,7 @@ source* parameters relate to source components
   sourceDatasetIniName : Dataset INI name for source components
 
 Sample to call this procedure:
-CALL `udp_utilities.schema_generator_run`("Y","prj-udp-n-dev-main-mid1","udp_utilities","schema_generator_run_log","schema_generator_match_pattern","schema_generator_match_datatype","schema_generator_result","schema_generator_table","schema_generator_reference_table","prj-udp-n-dev-main-mid1","udp_data_utils_test_data","udp_data_utils_test_data_cdc","udp_data_utils_test_data_ini");
+CALL `data_utilities.schema_generator_run`("Y","prj-udp-n-dev-main-mid1","data_utilities","schema_generator_run_log","schema_generator_match_pattern","schema_generator_match_datatype","schema_generator_result","schema_generator_table","schema_generator_reference_table","prj-udp-n-dev-main-mid1","udp_data_utils_test_data","udp_data_utils_test_data_cdc","udp_data_utils_test_data_ini");
 */
 DECLARE queryString STRING; -- build dynamic SQL for execution
 DECLARE runDatetime DATETIME; -- run datetime
@@ -64,10 +64,10 @@ INSERT INTO `"""||workProjectName||"""."""||workDatasetName||"""."""||workTarget
 EXECUTE IMMEDIATE queryString;
 
 /* Calls schema_generator_table_column_match_pattern procedure */
-CALL `udp_utilities.schema_generator_table_column_match_pattern`(runDatetime,workProjectName,workDatasetName,workTargetTableName2,record.table_catalog,record.table_schema,record.table_name);
+CALL `data_utilities.schema_generator_table_column_match_pattern`(runDatetime,workProjectName,workDatasetName,workTargetTableName2,record.table_catalog,record.table_schema,record.table_name);
 
 /* Calls schema_generator_create_view procedure */
-CALL `udp_utilities.schema_generator_create_view`(runDatetime,workProjectName,workDatasetName,workTargetTableName3,workTargetTableName6,workTargetTableName4,record.table_catalog,record.table_schema,record.table_name,sourceDatasetCdcName,sourceDatasetIniName);
+CALL `data_utilities.schema_generator_create_view`(runDatetime,workProjectName,workDatasetName,workTargetTableName3,workTargetTableName6,workTargetTableName4,record.table_catalog,record.table_schema,record.table_name,sourceDatasetCdcName,sourceDatasetIniName);
 
 END FOR;
 

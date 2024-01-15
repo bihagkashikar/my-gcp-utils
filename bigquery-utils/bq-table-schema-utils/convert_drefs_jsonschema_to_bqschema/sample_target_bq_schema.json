@@ -1,0 +1,1297 @@
+[
+	{
+		"name": "metadata_source_kafka_partition",
+		"type": "STRING"
+	},
+    {
+		"name": "metadata_source_kafka_offset",
+		"type": "STRING"
+	},
+    {
+		"name": "metadata_source_kafka_topic",
+		"type": "STRING"
+	},
+    {
+		"name": "metadata_source_kafka_datetime_utc",
+		"type": "STRING"
+	},
+    {
+		"name": "metadata_source_operation_type",
+		"type": "STRING"
+	},
+    {
+		"name": "metadata_source_kafka_key",
+		"type": "STRING"
+	},
+    {
+		"name": "metadata_record_source_name",
+		"type": "STRING"
+	},
+    {
+		"name": "metadata_record_source_category",
+		"type": "STRING"
+	},
+    {
+		"name": "metadata_record_source_type",
+		"type": "STRING"
+	},
+    {
+		"name": "metadata_record_source_system",
+		"type": "STRING"
+	},
+    {
+        "name": "type",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The type of the message payload"
+    },
+    {
+        "name": "audit",
+        "type": "RECORD",
+        "mode": "REQUIRED",
+        "description": "The user/system audit information of the action that created the message",
+        "fields": [
+            {
+                "name": "realm",
+                "type": "STRING",
+                "mode": "REQUIRED",
+                "description": "The security realm that the user code was authenticated against"
+            },
+            {
+                "name": "userCode",
+                "type": "STRING",
+                "mode": "REQUIRED",
+                "description": "The user code that created this message. This may be a service account."
+            }
+        ]
+    },
+    {
+        "name": "headers",
+        "type": "RECORD",
+        "mode": "NULLABLE",
+        "description": "Any relevant header information that is attached to the message",
+        "fields": [
+			{       
+			"name": "dummy0",
+			"type": "STRING"
+			},
+			{       
+			"name": "dummy1",
+			"type": "STRING"
+			}
+        ]
+    },
+    {
+        "name": "clientReferenceId",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Used for idempotency, uniquely identifies the message"
+    },
+    {
+        "name": "timeSent",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The time the message was generated"
+    },
+    {
+        "name": "origin",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The service name that created the message"
+    },
+    {
+        "name": "value",
+        "type": "RECORD",
+        "mode": "NULLABLE",
+        "description": "The value of the message",
+        "fields": [
+            {
+                "name": "identifier",
+                "type": "STRING",
+                "mode": "REQUIRED",
+                "description": "Globally unique identifier for the entity"
+            },
+            {
+                "name": "references",
+                "type": "RECORD",
+                "mode": "NULLABLE",
+                "description": "References to entities in other domains",
+                "fields": [
+                    {
+                        "name": "account",
+                        "type": "RECORD",
+                        "mode": "NULLABLE",
+                        "fields": [
+                            {
+                                "name": "identifier",
+                                "type": "STRING",
+                                "mode": "REQUIRED",
+                                "description": "The foreign entity's identifier"
+                            },
+                            {
+                                "name": "domain",
+                                "type": "STRING",
+                                "mode": "REQUIRED",
+                                "description": "The domain that the foreign entity belongs to"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "benefitPayment",
+                        "type": "RECORD",
+                        "mode": "NULLABLE",
+                        "fields": [
+                            {
+                                "name": "identifier",
+                                "type": "STRING",
+                                "mode": "REQUIRED",
+                                "description": "The foreign entity's identifier"
+                            },
+                            {
+                                "name": "domain",
+                                "type": "STRING",
+                                "mode": "REQUIRED",
+                                "description": "The domain that the foreign entity belongs to"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "investments",
+                        "type": "RECORD",
+                        "mode": "REPEATED",
+                        "fields": [
+                            {
+                                "name": "identifier",
+                                "type": "STRING",
+                                "mode": "REQUIRED",
+                                "description": "The foreign entity's identifier"
+                            },
+                            {
+                                "name": "domain",
+                                "type": "STRING",
+                                "mode": "REQUIRED",
+                                "description": "The domain that the foreign entity belongs to"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "reversalOf",
+                        "type": "RECORD",
+                        "mode": "NULLABLE",
+                        "fields": [
+                            {
+                                "name": "identifier",
+                                "type": "STRING",
+                                "mode": "REQUIRED",
+                                "description": "The foreign entity's identifier"
+                            },
+                            {
+                                "name": "domain",
+                                "type": "STRING",
+                                "mode": "REQUIRED",
+                                "description": "The domain that the foreign entity belongs to"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "sellTransaction",
+                        "type": "RECORD",
+                        "mode": "NULLABLE",
+                        "fields": [
+                            {
+                                "name": "identifier",
+                                "type": "STRING",
+                                "mode": "REQUIRED",
+                                "description": "The foreign entity's identifier"
+                            },
+                            {
+                                "name": "domain",
+                                "type": "STRING",
+                                "mode": "REQUIRED",
+                                "description": "The domain that the foreign entity belongs to"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "state",
+                "type": "RECORD",
+                "mode": "NULLABLE",
+                "description": "The new state of the entity",
+                "fields": [
+                    {
+                        "name": "transactionNumber",
+                        "type": "STRING",
+                        "mode": "NULLABLE",
+                        "description": "the transaction number"
+                    },
+                    {
+                        "name": "movementCategory",
+                        "type": "STRING",
+                        "mode": "NULLABLE",
+                        "description": "the movement category for the transaction"
+                    },
+                    {
+                        "name": "group",
+                        "type": "STRING",
+                        "mode": "NULLABLE",
+                        "description": "the group transaction type"
+                    },
+                    {
+                        "name": "type",
+                        "type": "STRING",
+                        "mode": "NULLABLE",
+                        "description": "the transaction type"
+                    },
+                    {
+                        "name": "pending",
+                        "type": "STRING",
+                        "mode": "NULLABLE",
+                        "description": "defines if the transaction is pending or not"
+                    },
+                    {
+                        "name": "description",
+                        "type": "STRING",
+                        "mode": "NULLABLE",
+                        "description": "the description of the transaction"
+                    },
+                    {
+                        "name": "contributionBreakdown",
+                        "type": "RECORD",
+                        "mode": "REPEATED",
+                        "fields": [
+                            {
+                                "name": "accumulatorNumber",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "Accumulator Number"
+                            },
+                            {
+                                "name": "accumulator",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "Accumulator Type"
+                            },
+                            {
+                                "name": "gross",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "Gross value of the contribution"
+                            },
+                            {
+                                "name": "net",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "Gross value of the contribution"
+                            },
+                            {
+                                "name": "tax",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "Tax on the contribution"
+                            },
+                            {
+                                "name": "costs",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "Value of any costs incurred from the contribution"
+                            },
+                            {
+                                "name": "taxAccrued",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "Tax value applicable to the value of the contribution"
+                            },
+                            {
+                                "name": "description",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "description of the contribution"
+                            },
+                            {
+                                "name": "contributionType",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "Defines if a contribution was made by a member or employer"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "effectiveDate",
+                        "type": "STRING",
+                        "mode": "NULLABLE",
+                        "description": "the effective date for the transaction"
+                    },
+                    {
+                        "name": "dueDate",
+                        "type": "STRING",
+                        "mode": "NULLABLE",
+                        "description": "the due date for the transaction"
+                    },
+                    {
+                        "name": "investmentNumber",
+                        "type": "STRING",
+                        "mode": "NULLABLE",
+                        "description": "the investment number for the transaction"
+                    },
+                    {
+                        "name": "units",
+                        "type": "STRING",
+                        "mode": "NULLABLE",
+                        "description": "the number of units for the transaction"
+                    },
+                    {
+                        "name": "gst",
+                        "type": "RECORD",
+                        "mode": "REPEATED",
+                        "fields": [
+                            {
+                                "name": "accumulatorNumber",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The accumulator number for the GST"
+                            },
+                            {
+                                "name": "accumulator",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The accumulator for the GST"
+                            },
+                            {
+                                "name": "base",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The base value for the GST"
+                            },
+                            {
+                                "name": "inclusive",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The inclusive value for the GST"
+                            },
+                            {
+                                "name": "gst",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The gst value for the GST"
+                            },
+                            {
+                                "name": "gross",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The gross value for the GST"
+                            },
+                            {
+                                "name": "ritc",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The ritc value for the GST"
+                            },
+                            {
+                                "name": "ritcAccrued",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The ritcAccrued value for the GST"
+                            },
+                            {
+                                "name": "net",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The net value for the GST"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "costBase",
+                        "type": "RECORD",
+                        "mode": "NULLABLE",
+                        "description": "cost base",
+                        "fields": [
+                            {
+                                "name": "costDate",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The cost date for the cost base"
+                            },
+                            {
+                                "name": "entryFee",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The entry fee value for the cost base"
+                            },
+                            {
+                                "name": "initialCostBase",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The initial value for the cost base"
+                            },
+                            {
+                                "name": "costBase",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The cost base value for the cost base"
+                            },
+                            {
+                                "name": "taxCostBase",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The tax value for the cost base"
+                            },
+                            {
+                                "name": "indexedInitialCostBase",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The indexed initial value for the cost base"
+                            },
+                            {
+                                "name": "indexedTo",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The indexed to value for the cost base"
+                            },
+                            {
+                                "name": "indexedCostBase",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The indexed value for the cost base"
+                            },
+                            {
+                                "name": "indexedTaxCostBase",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The indexed tax value for the cost base"
+                            },
+                            {
+                                "name": "openingIncomeAdjustments",
+                                "type": "RECORD",
+                                "mode": "NULLABLE",
+                                "description": "The opening income adjustments details for the cost base",
+                                "fields": [
+                                    {
+                                        "name": "capitalReturn",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The capital return value for the income adjustments"
+                                    },
+                                    {
+                                        "name": "taxFree",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The tax free value for the income adjustments"
+                                    },
+                                    {
+                                        "name": "taxDeferred",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The tax deferred value for the income adjustments"
+                                    },
+                                    {
+                                        "name": "amit",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The amit value for the income adjustments"
+                                    },
+                                    {
+                                        "name": "amitDecrease",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The amit decrease value for the income adjustments"
+                                    },
+                                    {
+                                        "name": "amitIncrease",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The amit increase value for the income adjustments"
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "incomeAdjustments",
+                                "type": "RECORD",
+                                "mode": "NULLABLE",
+                                "description": "The income adjustments details for the cost base",
+                                "fields": [
+                                    {
+                                        "name": "capitalReturn",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The capital return value for the income adjustments"
+                                    },
+                                    {
+                                        "name": "taxFree",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The tax free value for the income adjustments"
+                                    },
+                                    {
+                                        "name": "taxDeferred",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The tax deferred value for the income adjustments"
+                                    },
+                                    {
+                                        "name": "amit",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The amit value for the income adjustments"
+                                    },
+                                    {
+                                        "name": "amitDecrease",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The amit decrease value for the income adjustments"
+                                    },
+                                    {
+                                        "name": "amitIncrease",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The amit increase value for the income adjustments"
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "sale",
+                                "type": "RECORD",
+                                "mode": "NULLABLE",
+                                "description": "The sale details for the cost base",
+                                "fields": [
+                                    {
+                                        "name": "dueDate",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The due date for the sale"
+                                    },
+                                    {
+                                        "name": "effectiveDate",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The effective date for the sale"
+                                    },
+                                    {
+                                        "name": "date",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The date for the sale"
+                                    },
+                                    {
+                                        "name": "proceeds",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The proceeds value for the sale"
+                                    },
+                                    {
+                                        "name": "cgtable",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The cgtable value for the sale"
+                                    },
+                                    {
+                                        "name": "gains",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The gains value for the sale"
+                                    },
+                                    {
+                                        "name": "type",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The type of sale"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "capitalGains",
+                        "type": "RECORD",
+                        "mode": "NULLABLE",
+                        "description": "capital gains",
+                        "fields": [
+                            {
+                                "name": "assessable",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The total assessable value in capitalGains"
+                            },
+                            {
+                                "name": "cgtable",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The total cgtable value in capitalGains"
+                            },
+                            {
+                                "name": "tax",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The total tax value in capitalGains"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "income",
+                        "type": "RECORD",
+                        "mode": "NULLABLE",
+                        "description": "income",
+                        "fields": [
+                            {
+                                "name": "investmentNumber",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The investment number for income"
+                            },
+                            {
+                                "name": "incomeNumber",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The income number for income"
+                            },
+                            {
+                                "name": "taxYear",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The tax year for income"
+                            },
+                            {
+                                "name": "type",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The tax year for income"
+                            },
+                            {
+                                "name": "income",
+                                "type": "RECORD",
+                                "mode": "NULLABLE",
+                                "description": "The detailed breakdown of the income tax for the income",
+                                "fields": [
+                                    {
+                                        "name": "received",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The received value for the income"
+                                    },
+                                    {
+                                        "name": "tax",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The tax value for the income"
+                                    },
+                                    {
+                                        "name": "frankingCredit",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The franking credit value for the income"
+                                    },
+                                    {
+                                        "name": "nonResidentTax",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The non resident tax value for the income"
+                                    },
+                                    {
+                                        "name": "foreignTaxCredit",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The foreign tax credit value for the income"
+                                    },
+                                    {
+                                        "name": "otherIncomeCreditTax",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The other income credit tax value for the income"
+                                    },
+                                    {
+                                        "name": "accruedTax",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The accrued tax value for the income"
+                                    },
+                                    {
+                                        "name": "noTaxFileNumberTax",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The no tax file number tax value for the income"
+                                    },
+                                    {
+                                        "name": "net",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The net value for the income"
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "australian",
+                                "type": "RECORD",
+                                "mode": "NULLABLE",
+                                "description": "The detailed breakdown of the australian income",
+                                "fields": [
+                                    {
+                                        "name": "frankedDividends",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The franked dividends value for the australian income"
+                                    },
+                                    {
+                                        "name": "unfrankedDividends",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The unfranked CFI dividends value for the australian income"
+                                    },
+                                    {
+                                        "name": "interest",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The interest value for the australian income"
+                                    },
+                                    {
+                                        "name": "interestNonResidentNotWithholding",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The interest nonresident not withholding value for the australian income"
+                                    },
+                                    {
+                                        "name": "other",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The other value for the australian income"
+                                    },
+                                    {
+                                        "name": "deductibleExpenses",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The deductible expenses value for the australian income"
+                                    },
+                                    {
+                                        "name": "frankingCredits",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The franking credits value for the australian income"
+                                    },
+                                    {
+                                        "name": "otherCredits",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The other credits value for the australian income"
+                                    },
+                                    {
+                                        "name": "nonConcessionMIT",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The non concession MIT value for the australian income"
+                                    },
+                                    {
+                                        "name": "excludedNonConcessionalMIT",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The excluded non concession MIT value for the australian income"
+                                    },
+                                    {
+                                        "name": "cleanBuildingMIT",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The clean building MIT value for the australian income"
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "foreign",
+                                "type": "RECORD",
+                                "mode": "NULLABLE",
+                                "description": "The detailed breakdown of the foreign income",
+                                "fields": [
+                                    {
+                                        "name": "assessable",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The assessable value for the foreign income"
+                                    },
+                                    {
+                                        "name": "taxOffset",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The tax offset value for the foreign income"
+                                    },
+                                    {
+                                        "name": "cfc",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The cfc value for the foreign income"
+                                    },
+                                    {
+                                        "name": "newZealandFrankingCredits",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The new zealand franking credits value for the foreign income"
+                                    },
+                                    {
+                                        "name": "interest",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The interest value for the foreign income"
+                                    },
+                                    {
+                                        "name": "taxCredit",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The tax credit value for the foreign income"
+                                    },
+                                    {
+                                        "name": "modifiedPassive",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The modified passive value for the foreign income"
+                                    },
+                                    {
+                                        "name": "passiveTaxCredit",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The passive tax credit value for the foreign income"
+                                    },
+                                    {
+                                        "name": "discountedNtarpTaxCredit",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The discounted ntarp tax credit value for the foreign income"
+                                    },
+                                    {
+                                        "name": "indexedNtarpTaxCredit",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The indexed ntarp tax credit value for the foreign income"
+                                    },
+                                    {
+                                        "name": "otherNtarpTaxCredit",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The other ntarp tax credit value for the foreign income"
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "nonTaxable",
+                                "type": "RECORD",
+                                "mode": "NULLABLE",
+                                "description": "The detailed breakdown of the nonTaxable income",
+                                "fields": [
+                                    {
+                                        "name": "taxFree",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The tax free value for the nonTaxable income"
+                                    },
+                                    {
+                                        "name": "taxPaid",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The tax paid value for the nonTaxable income"
+                                    },
+                                    {
+                                        "name": "taxDeferred",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The tax deferred value for the nonTaxable income"
+                                    },
+                                    {
+                                        "name": "taxExempt",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The tax exempt value for the nonTaxable income"
+                                    },
+                                    {
+                                        "name": "amitIncrease",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The amit increase value for the nonTaxable income"
+                                    },
+                                    {
+                                        "name": "amitDecrease",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The amit decrease value for the nonTaxable income"
+                                    },
+                                    {
+                                        "name": "otherNonAttributable",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The other non attributable value for the nonTaxable income"
+                                    },
+                                    {
+                                        "name": "nonAssessableNonExempt",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The non assessable non exempt value for the nonTaxable income"
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "capitalGains",
+                                "type": "RECORD",
+                                "mode": "NULLABLE",
+                                "description": "The detailed breakdown of the capital gains income",
+                                "fields": [
+                                    {
+                                        "name": "indexed",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The non indexed value for the capital gains income"
+                                    },
+                                    {
+                                        "name": "indexedNTARP",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The non indexed NTARP value for the capital gains income"
+                                    },
+                                    {
+                                        "name": "discounted",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The discounted value for the capital gains income"
+                                    },
+                                    {
+                                        "name": "discountedNTARP",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The discounted NTARP value for the capital gains income"
+                                    },
+                                    {
+                                        "name": "concessional",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The concessional value for the capital gains income"
+                                    },
+                                    {
+                                        "name": "other",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The other value for the capital gains income"
+                                    },
+                                    {
+                                        "name": "otherNTARP",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The other NTARP value for the capital gains income"
+                                    },
+                                    {
+                                        "name": "otherCapitalGainsDistributed",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The other capital gains distributed value for the capital gains income"
+                                    },
+                                    {
+                                        "name": "amitCgtGrossUp",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The amit cgt gross up value for the capital gains income"
+                                    },
+                                    {
+                                        "name": "foreignDiscountedNTAP",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The foreign discounted NTAP value for the capital gains income"
+                                    },
+                                    {
+                                        "name": "foreignIndexedNTAP",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The foreign indexed NTAP value for the capital gains income"
+                                    },
+                                    {
+                                        "name": "foreignOtherNTAP",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "he foreign other NTAP value for the capital gains income"
+                                    },
+                                    {
+                                        "name": "discountedTAPNCMI",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The discounted TAP NCMI value for the capital gains income"
+                                    },
+                                    {
+                                        "name": "otherTAPNCMI",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The other TAP NCMI value for the capital gains income"
+                                    },
+                                    {
+                                        "name": "discountedTAPExcludedFromNCMI",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The discounted tap excluded from NCMI value for the capital gains income"
+                                    },
+                                    {
+                                        "name": "otherTAPExcludedFromNCMI",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The other tap excluded from NCMI value for the capital gains income"
+                                    },
+                                    {
+                                        "name": "discountedCleanBuildingMIT",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The discounted TAP clean building mit value for the capital gains income"
+                                    },
+                                    {
+                                        "name": "otherCleanBuildingMIT",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The other TAP clean building mit value for the capital gains income"
+                                    },
+                                    {
+                                        "name": "discountedNTAPNCMI",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The discounted NTAP NCMI value for the capital gains income"
+                                    },
+                                    {
+                                        "name": "otherNTAPNCMI",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The other NTAP NCMI value for the capital gains income"
+                                    },
+                                    {
+                                        "name": "discountedNTAPExcludedFromNCMI",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The discounted NTAP excluded from NCMI value for the capital gains income"
+                                    },
+                                    {
+                                        "name": "otherNTAPExcludedFromNCMI",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The other NTAP excluded from NCMI value for the capital gains income"
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "nonResident",
+                                "type": "RECORD",
+                                "mode": "NULLABLE",
+                                "description": "The detailed breakdown of non resident income",
+                                "fields": [
+                                    {
+                                        "name": "unfrankedDividends",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The unfranked dividends value for non resident income"
+                                    },
+                                    {
+                                        "name": "interest",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The interest value for non resident income"
+                                    },
+                                    {
+                                        "name": "other",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The other value for non resident income"
+                                    },
+                                    {
+                                        "name": "ncmiTapNcmiCg",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The NCMI TAP NCMI CG value for non resident income"
+                                    },
+                                    {
+                                        "name": "exNcmiTapExNcmiCg",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The ex NCMI TAP NCMI CG value for non resident income"
+                                    },
+                                    {
+                                        "name": "fundPaymentClean",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The fund payment clean value for non resident income"
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "other",
+                                "type": "RECORD",
+                                "mode": "NULLABLE",
+                                "description": "The detailed breakdown of other income",
+                                "fields": [
+                                    {
+                                        "name": "managerRebate",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The manager rebate value for non resident income"
+                                    },
+                                    {
+                                        "name": "capitalReturn",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The capital return value for non resident income"
+                                    },
+                                    {
+                                        "name": "taxFileNumberWithheld",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The tax file number withheld value for non resident income"
+                                    },
+                                    {
+                                        "name": "licCapitalGains",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The lic capital gains value for non resident income"
+                                    },
+                                    {
+                                        "name": "unallocated",
+                                        "type": "STRING",
+                                        "mode": "NULLABLE",
+                                        "description": "The unallocated value for non resident income"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "eligibleTerminationPayment",
+                        "type": "RECORD",
+                        "mode": "NULLABLE",
+                        "description": "eligibleTerminationPayment",
+                        "fields": [
+                            {
+                                "name": "payee",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The payee for the eligible termination payment"
+                            },
+                            {
+                                "name": "cashETP",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The cash ETP flag for the eligible termination payment"
+                            },
+                            {
+                                "name": "unrestrictedNonPreserved",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The unrestricted non preserved value of the eligible termination payment"
+                            },
+                            {
+                                "name": "restrictedNonPreserved",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The restricted non preserved value of the eligible termination payment"
+                            },
+                            {
+                                "name": "preserved",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The preserved value of the eligible termination payment"
+                            },
+                            {
+                                "name": "taxFree",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The tax free value of the eligible termination payment"
+                            },
+                            {
+                                "name": "taxableTaxed",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The taxable taxed value of the eligible termination payment"
+                            },
+                            {
+                                "name": "taxableUntaxed",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The taxable untaxed value of the eligible termination payment"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "contributionExtra",
+                        "type": "RECORD",
+                        "mode": "NULLABLE",
+                        "description": "contributionExtra",
+                        "fields": [
+                            {
+                                "name": "abn",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The Super Fund's ABN"
+                            },
+                            {
+                                "name": "isSelfManagedSuperFund",
+                                "type": "STRING",
+                                "mode": "NULLABLE"
+                            },
+                            {
+                                "name": "payer",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The payer for the contribution extra payment"
+                            },
+                            {
+                                "name": "superFundName",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The name of the Super Fund"
+                            },
+                            {
+                                "name": "superFundNumber",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The Super Fund number"
+                            },
+                            {
+                                "name": "usi",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The Super Fund's Unique Superannuation Identifier"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "movements",
+                        "type": "RECORD",
+                        "mode": "REPEATED",
+                        "fields": [
+                            {
+                                "name": "investmentNumber",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "the investment number for the transaction movement"
+                            },
+                            {
+                                "name": "type",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "the investment type of the transaction movement"
+                            },
+                            {
+                                "name": "units",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "The number of units for this investment in the transaction"
+                            },
+                            {
+                                "name": "price",
+                                "type": "STRING",
+                                "mode": "NULLABLE",
+                                "description": "the price of an unit for the transaction movement"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "type",
+                "type": "STRING",
+                "mode": "REQUIRED",
+                "description": "The type of change that triggered the state change"
+            },
+            {
+                "name": "timestamp",
+                "type": "STRING",
+                "mode": "REQUIRED",
+                "description": "The time the state change occurred in the system"
+            }
+        ]
+    }
+]
