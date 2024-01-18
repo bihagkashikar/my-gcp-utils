@@ -22,7 +22,7 @@ source* parameters relate to source components
   sourceDatasetIniName : Dataset INI name for source components
 
 Sample to call this procedure:
-CALL `data_utilities.schema_generator_create_view`(CURRENT_DATETIME, "prj-udp-n-dev-main-mid1","data_utilities","schema_generator_match_datatype","schema_generator_reference_table","schema_generator_result","prj-udp-n-dev-main-mid1","udp_data_utils_test_data","schema_generator_test_table_1","udp_data_utils_test_data_cdc","udp_data_utils_test_data_ini");
+CALL `data_utilities.schema_generator_create_view`(CURRENT_DATETIME, "#YOUR_PROJECT","data_utilities","schema_generator_match_datatype","schema_generator_reference_table","schema_generator_result","#YOUR_PROJECT","udp_data_utils_test_data","schema_generator_test_table_1","udp_data_utils_test_data_cdc","udp_data_utils_test_data_ini");
 */
 DECLARE queryHeadStringCdc STRING; -- for building dynamic SQL for execution
 DECLARE queryHeadStringIni STRING; -- for building dynamic SQL for execution

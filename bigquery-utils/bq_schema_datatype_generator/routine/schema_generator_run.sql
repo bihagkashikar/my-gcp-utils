@@ -21,7 +21,7 @@ source* parameters relate to source components
   sourceDatasetIniName : Dataset INI name for source components
 
 Sample to call this procedure:
-CALL `data_utilities.schema_generator_run`("Y","prj-udp-n-dev-main-mid1","data_utilities","schema_generator_run_log","schema_generator_match_pattern","schema_generator_match_datatype","schema_generator_result","schema_generator_table","schema_generator_reference_table","prj-udp-n-dev-main-mid1","udp_data_utils_test_data","udp_data_utils_test_data_cdc","udp_data_utils_test_data_ini");
+CALL `data_utilities.schema_generator_run`("Y","#YOUR_PROJECT","data_utilities","schema_generator_run_log","schema_generator_match_pattern","schema_generator_match_datatype","schema_generator_result","schema_generator_table","schema_generator_reference_table","#YOUR_PROJECT","udp_data_utils_test_data","udp_data_utils_test_data_cdc","udp_data_utils_test_data_ini");
 */
 DECLARE queryString STRING; -- build dynamic SQL for execution
 DECLARE runDatetime DATETIME; -- run datetime
