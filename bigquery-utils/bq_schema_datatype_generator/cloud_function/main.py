@@ -1069,10 +1069,10 @@ def create_tbl_vw_newschema(src_project_id, src_dataset_id, src_table_id, trg_pr
         return 'Error: Not All Columns are STRING Type'
 
 
-# message = create_tbl_vw_newschema('prj-insignia-udp-pre-npe',
+# message = create_tbl_vw_newschema('#YOUR_PROJECT',
 #                                   'table_auto_detect_schema_poc',
 #                                   'evolve_data_type',
-#                                   'prj-insignia-udp-pre-npe',
+#                                   '#YOUR_PROJECT',
 #                                   'table_auto_detect_schema_poc',
 #                                   'evolve_data_type_after_cast')
 

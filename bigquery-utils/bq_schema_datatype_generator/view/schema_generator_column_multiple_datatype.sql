@@ -4,8 +4,8 @@ SELECT
   col.table_catalog, col.table_schema, col.table_name, col.column_name, col.data_type,
   count(distinct col.data_type) OVER (PARTITION BY col.column_name) AS cnt_dt
 FROM
-  	udp_data_raw_evolve_cdc.INFORMATION_SCHEMA.TABLES tbl,
-    udp_data_raw_evolve_cdc.INFORMATION_SCHEMA.COLUMNS col
+  	#YOUR_DATASET.INFORMATION_SCHEMA.TABLES tbl,
+    #YOUR_DATASET.INFORMATION_SCHEMA.COLUMNS col
 WHERE tbl.table_type = 'VIEW'
 AND col.table_catalog = tbl.table_catalog
 AND col.table_schema = tbl.table_schema
@@ -15,8 +15,8 @@ SELECT
   col.table_catalog, col.table_schema, col.table_name, col.column_name, col.data_type,
   count(distinct col.data_type) OVER (PARTITION BY col.column_name) AS cnt_dt
 FROM
-  	udp_data_raw_evolve_ini.INFORMATION_SCHEMA.TABLES tbl,
-    udp_data_raw_evolve_ini.INFORMATION_SCHEMA.COLUMNS col
+  	#YOUR_DATASET.INFORMATION_SCHEMA.TABLES tbl,
+    #YOUR_DATASET.INFORMATION_SCHEMA.COLUMNS col
 WHERE tbl.table_type = 'VIEW'
 AND col.table_catalog = tbl.table_catalog
 AND col.table_schema = tbl.table_schema
@@ -26,8 +26,8 @@ SELECT
   col.table_catalog, col.table_schema, col.table_name, col.column_name, col.data_type,
   count(distinct col.data_type) OVER (PARTITION BY col.column_name) AS cnt_dt
 FROM
-  	udp_data_raw_tas_cdc.INFORMATION_SCHEMA.TABLES tbl,
-    udp_data_raw_tas_cdc.INFORMATION_SCHEMA.COLUMNS col
+  	#YOUR_DATASET.INFORMATION_SCHEMA.TABLES tbl,
+    #YOUR_DATASET.INFORMATION_SCHEMA.COLUMNS col
 WHERE tbl.table_type = 'VIEW'
 AND col.table_catalog = tbl.table_catalog
 AND col.table_schema = tbl.table_schema
@@ -37,8 +37,8 @@ SELECT
   col.table_catalog, col.table_schema, col.table_name, col.column_name, col.data_type,
   count(distinct col.data_type) OVER (PARTITION BY col.column_name) AS cnt_dt
 FROM
-  	udp_data_raw_tas_ini.INFORMATION_SCHEMA.TABLES tbl,
-    udp_data_raw_tas_ini.INFORMATION_SCHEMA.COLUMNS col
+  	#YOUR_DATASET.INFORMATION_SCHEMA.TABLES tbl,
+    #YOUR_DATASET.INFORMATION_SCHEMA.COLUMNS col
 WHERE tbl.table_type = 'VIEW'
 AND col.table_catalog = tbl.table_catalog
 AND col.table_schema = tbl.table_schema

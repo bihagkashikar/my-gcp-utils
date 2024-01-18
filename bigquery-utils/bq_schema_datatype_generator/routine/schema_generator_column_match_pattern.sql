@@ -19,7 +19,7 @@ source* parameters relate to source components
   sourceColumnDatatype : Source column datatype for source components    
 
 Sample to call this procedure:
-CALL `data_utilities.schema_generator_column_match_pattern`(CURRENT_DATETIME, "prj-udp-n-dev-main-mid1","data_utilities","schema_generator_match_pattern","prj-udp-n-dev-main-mid1","udp_data_utils_test_data","schema_generator_test_table_1","number_column",1,"STRING");
+CALL `data_utilities.schema_generator_column_match_pattern`(CURRENT_DATETIME, "#YOUR_PROJECT","data_utilities","schema_generator_match_pattern","#YOUR_PROJECT","udp_data_utils_test_data","schema_generator_test_table_1","number_column",1,"STRING");
 */
 DECLARE queryString STRING; -- build dynamic SQL for execution
 
