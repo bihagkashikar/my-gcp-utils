@@ -169,22 +169,22 @@ For instance, Evolve date-time Regex is
 r'^\d{4}-\d{1,2}-\d{1,2}T\d{1,2}:\d{1,2}:\d{1,2}(\.\d{1,3})[+-]\d{4}?$'
 ```
 
-Alternate instance, Evolve date-time Regex is
+Alternate instance, `source system` specific date-time Regex is
 ```
 r'^\d{4}-\d{1,2}-\d{1,2}T\d{1,2}:\d{1,2}:\d{1,2}[+-]\d{4}?$'
 ```
 
-Alternate instance, Evolve date-time Regex is
+Alternate instance, `source system` specific date-time Regex is
 ```
 r'^\d{4}-\d{1,2}-\d{1,2}T\d{1,2}:\d{1,2}:\d{1,2}(\.\d{1,6})[+-]\d{1,2}:\d{1,2}?$'
 ```
 
-Alternate instance, Evolve date-time Regex is
+Alternate instance, `source system` specific date-time Regex is
 ```
 r'^\d{4}-\d{1,2}-\d{1,2}T\d{1,2}:\d{1,2}:\d{1,2}[+-]\d{1,2}:\d{1,2}?$'
 ```
 
-Alternate instance, TAS date-time Regex is
+Alternate instance, `source system` specific date-time Regex is
 ```
 r'^\d{4}-\d{1,2}-\d{1,2}-\d{1,2}.\d{1,2}.\d{1,2}(\.\d{1,6})$')
 ```
@@ -199,16 +199,16 @@ The schema data type generator service will infer the column type as below:
 
 Column name|Inferred type
 -----------|-------
-date_column_1|EVOLVE_DATETIME
+date_column_1|SRCSYSTEM1_DATETIME
 date_column_2|STRING
-date_column_3|EVOLVE_DATETIME
-date_column_4|TAS_DATETIME
-date_column_5|EVOLVE_DATETIME
-date_column_6|EVOLVE_DATETIME
+date_column_3|SRCSYSTEM1_DATETIME
+date_column_4|SRCSYSTEM2_DATETIME
+date_column_5|SRCSYSTEM1_DATETIME
+date_column_6|SRCSYSTEM1_DATETIME
 
 According to the Data Type Mapping table, the date-time column will be converted to TIMESTAMP (UTC as timezone) format
 
-Column name| Raw Structure Value (STRING)     | Transformed Value (TIMESTAMP)
+Column name| LANDING ZONE Value (STRING)     | Transformed Value (TIMESTAMP)
 -----------|----------------------------------|-------------------
 date_column_1| 2023-06-27T**16**:22:09.160+1000 | 2023-06-27 **06**:22:09.160000 UTC
 
@@ -240,6 +240,6 @@ time_column_2|STRING
 
 Sample time format transform is shown below:
 
-Column name| Raw Structure Value (STRING)     | Transformed Value (TIME)
+Column name| LANDING Zone Value (STRING)     | Transformed Value (TIME)
 -----------|----------------------------------|-------------------
 time_column_1| 16:22:09.160+1000 | 16:22:09.160000
